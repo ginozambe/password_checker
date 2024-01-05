@@ -12,6 +12,8 @@ print("\nA strong password must meet the following criteria:")
 print("- It must be at least 7 characters long.")
 print("- It must include at least 1 special character.")
 print("- It must include at least 1 number.")
+print("- It must include at least 1 uppercase letter.")
+print("- It must include at least 1 lowercase letter.")
 
 # Function to check password strength
 
@@ -19,16 +21,17 @@ print("- It must include at least 1 number.")
 def check_password_strength(password):
     # Check Length
     has_min_length = len(password) >= 7
-
     # Check for Special Characters
     special_characters = ["!", "@", "#", "$", "%", "^", "&", "*", "£"]
     has_special_char = any(char in special_characters for char in password)
-
+    # Check for uppercase and lowercase
+    has_uppercass = any(char.isupper() for char in password)
+    has_lowercase = any(char.islower() for char in password)
     # Check for Numbers
     has_number = any(char.isdigit() for char in password)
 
     # Providing Feedback
-    if has_min_length and has_special_char and has_number:
+    if has_min_length and has_special_char and has_number and has_uppercass and has_lowercase:
         print("Congratulations! Your password is strong.")
         return True
     else:
@@ -39,6 +42,10 @@ def check_password_strength(password):
             print("- Password should include at least 1 special character.")
         if not has_number:
             print("- Password should include at least 1 number.")
+        if not has_uppercass:
+            print("- Password should include at least 1 uppercase letter.")
+        if not has_lowercase:
+            print("- Password should include at least 1 lowercase letter.")
         return False
 
 # Function for the user to enter a password with retry limit
