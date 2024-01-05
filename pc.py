@@ -53,7 +53,7 @@ def enter_password_with_retry(max_attempts):
         else:
             attempts += 1
             print(
-                f"\nAttempts remaining:{max_attempts - attempts}")
+                f"\nAttempts remaining: {max_attempts - attempts}")
     return False  # Maximum attempts reached
 
 
