@@ -65,7 +65,7 @@ def check_password_strength(password):
 def enter_password_with_retry(max_attempts):
     attempts = 0
     while attempts < max_attempts:
-        users_password = input("\nEnter your password: ")
+        users_password = input("\nEnter a password: ")
         if check_password_strength(users_password):
             return True  # Password is strong, exit the function
         else:
@@ -76,10 +76,29 @@ def enter_password_with_retry(max_attempts):
 
 
 # Retry option with a limit
-max_attempts = 5  # Maximum number of attempts
+max_attempts = 3  # Maximum number of attempts
 
-# User attempts to enter a password
-if enter_password_with_retry(max_attempts):
-    print("Thank you for using the Password Checker!")
-else:
-    print("\nMaximum attempts reached. Please try again later.")
+# User attempts to enter passwords until they decide to stop
+while True:
+    if enter_password_with_retry(max_attempts):
+        while True:
+            try_again = input(
+                "\nWould you like to check another password? (yes/no): ").lower()
+            if try_again == "yes":
+                break  # Break from the inner loop and allow the user to enter another password
+            elif try_again == "no":
+                print("\nThank you for using the Password Checker!")
+                exit()  # Exit the program if the user chooses not to enter another password
+            else:
+                print("Oops! Please enter either 'yes' or 'no'.")
+    else:
+        while True:
+            try_again = input(
+                "\nMaximum attempts reached. Would you like to try another password? (yes/no): ").lower()
+            if try_again == "yes":
+                break  # Break from the inner loop and allow the user to enter another password
+            elif try_again == "no":
+                print("\nExiting the Password Checker. Have a good day!")
+                exit()  # Exit the program if the user chooses not to enter another password
+            else:
+                print("Oops! Please enter either 'yes' or 'no'.")
