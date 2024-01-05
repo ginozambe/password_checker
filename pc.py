@@ -1,64 +1,67 @@
 """
 Project 2: Password Checker Program
-Objective: Build a program that checks the strength 
-of a password against a predefined set of rules. 
-The program should provide feedback to the user on 
+Objective: Build a program that checks the strength
+of a password against a predefined set of rules.
+The program should provide feedback to the user on
 whether their password is considered strong.
 
 """
-min_characters = 7
-special_chars = ["!", "?", "#", "@", "$", "*"]
-numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+# Introduction
+print("Welcome to the Password Checker!")
+print("\nA strong password must meet the following criteria:")
+print("- It must be at least 7 characters long.")
+print("- It must include at least 1 special character.")
+print("- It must include at least 1 number.")
 
 # Function to check password strength
 
 
 def check_password_strength(password):
-    # Checking the length of the password
-    if len(password) >= min_characters:
-        HAS_7_CHARS = True
+    # Check Length
+    has_min_length = len(password) >= 7
+
+    # Check for Special Characters
+    special_characters = ["!", "@", "#", "$", "%", "^", "&", "*", "£"]
+    has_special_char = any(char in special_characters for char in password)
+
+    # Check for Numbers
+    has_number = any(char.isdigit() for char in password)
+
+    # Providing Feedback
+    if has_min_length and has_special_char and has_number:
+        print("Congratulations! Your password is strong.")
+        return True
     else:
-        HAS_7_CHARS = False
+        print("\nYour password does not meet the following password requirements:")
+        if not has_min_length:
+            print("- Password should be at least 7 characters long.")
+        if not has_special_char:
+            print("- Password should include at least 1 special character.")
+        if not has_number:
+            print("- Password should include at least 1 number.")
+        return False
 
-    # Checking for special characters
-    HAS_SPECIAL_CHARS = any(char in special_chars for char in password)
+# Function for the user to enter a password with retry limit
 
-    # Checking for numbers
-    HAS_NUMBERS = any(char.isdigit() for char in password)
 
-    # Provide feedback
-    if HAS_7_CHARS and HAS_SPECIAL_CHARS and HAS_NUMBERS:
-        print("Your password is strong.")
-    else:
-        if not HAS_7_CHARS:
-            print("Your password should be at least 7 characters long.")
-        if not HAS_SPECIAL_CHARS:
+def enter_password_with_retry(max_attempts):
+    attempts = 0
+    while attempts < max_attempts:
+        users_password = input("\nEnter your password: ")
+        if check_password_strength(users_password):
+            return True  # Password is strong, exit the function
+        else:
+            attempts += 1
             print(
-                "Your password should include at least one special character (!, ?, #, @, $, *).")
-        if not HAS_NUMBERS:
-            print("Your password should include at least one number.")
+                f"\nAttempts remaining:{max_attempts - attempts}")
+    return False  # Maximum attempts reached
 
 
-# State password requirements
-print("\nWelcome to the password checker!\n")
-print("A strong password must meet the following criteria:")
-print("- At least 7 characters long\n- Include at least 1 special character\n- Include at least 1 number\n")
+# Retry option with a limit
+max_attempts = 5  # Maximum number of attempts
 
-# Users password
-users_password = input("Enter your password: ")
-
-# Check the password strength
-check_password_strength(users_password)
-
-# Retry option
-while True:
-    retry = input(
-        "\nWould you like to try another password? (yes/no): ").lower()
-    if retry == "yes":
-        users_password = input("Enter your password: ")
-        check_password_strength(users_password)
-    elif retry == "no":
-        print("Thank you for using the password checker!")
-        break
-    else:
-        print("Please enter 'yes' or 'no'.")
+# User attempts to enter a password
+if enter_password_with_retry(max_attempts):
+    print("Thank you for using the Password Checker!")
+else:
+    print("\nMaximum attempts reached. Please try again later.")
