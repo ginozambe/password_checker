@@ -29,10 +29,21 @@ def check_password_strength(password):
     has_lowercase = any(char.islower() for char in password)
     # Check for Numbers
     has_number = any(char.isdigit() for char in password)
+    # Check for very strong password
+    is_very_strong = (
+        len(password) >= 10
+        and sum(char in special_characters for char in password) >= 2
+        and sum(char.isdigit() for char in password) >= 2
+        and sum(char.isupper() for char in password) >= 2
+        and sum(char.islower() for char in password) >= 2
+    )
 
     # Providing Feedback
     if has_min_length and has_special_char and has_number and has_uppercass and has_lowercase:
-        print("Congratulations! Your password is strong.")
+        if is_very_strong:
+            print("Congratulations! Your password is VERY VERY strong")
+        else:
+            print("Congratulations! Your password is strong.")
         return True
     else:
         print("\nYour password does not meet the following password requirements:")
